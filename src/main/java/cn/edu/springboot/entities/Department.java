@@ -29,6 +29,7 @@ public class Department {
 		this.departmentName = departmentName;
 	}
 
+	//重写toString方法
 	@Override
 	public String toString() {
 		return "Department [id=" + id + ", departmentName=" + departmentName + "]";

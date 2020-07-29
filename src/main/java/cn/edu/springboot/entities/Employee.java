@@ -10,7 +10,7 @@ public class Employee {
     private String email;
     //1 male, 0 female
     private Integer gender;
-    private Department department;
+    private String departmentName;
     private Date birth;
 
     public Integer getId() {
@@ -45,12 +45,12 @@ public class Employee {
         this.gender = gender;
     }
 
-    public Department getDepartment() {
-        return department;
+    public String getDepartment() {
+        return departmentName;
     }
 
-    public void setDepartment(Department department) {
-        this.department = department;
+    public void setDepartment(String departmentName) {
+        this.departmentName = departmentName;
     }
 
     public Date getBirth() {
@@ -60,20 +60,23 @@ public class Employee {
     public void setBirth(Date birth) {
         this.birth = birth;
     }
+
+    //两个构造方法
     public Employee(Integer id, String lastName, String email, Integer gender,
-                    Department department) {
+                    String departmentName) {
         super();
         this.id = id;
         this.lastName = lastName;
         this.email = email;
         this.gender = gender;
-        this.department = department;
+        this.departmentName = departmentName;
         this.birth = new Date();
     }
 
     public Employee() {
     }
 
+    //重写toString方法
     @Override
     public String toString() {
         return "Employee{" +
@@ -81,7 +84,7 @@ public class Employee {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", gender=" + gender +
-                ", department=" + department +
+                ", department=" + departmentName +
                 ", birth=" + birth +
                 '}';
     }

@@ -89,7 +89,8 @@
 									<td> [[${emp.lastName}]]</td>
 									<td th:text="${emp.email}"></td>
 									<td th:text="${emp.gender}==0?'女':'男'"></td>
-									<td th:text="${emp.department.departmentName}"></td>
+<!--									<td th:text="${emp.departmentName}"></td>-->
+									<td>[[${emp.departmentName}]]</td>
 <!--									<td th:text="${#dates.format(emp.birth, 'yyyy-MMM-dd HH:mm')}"></td>&lt;!&ndash;MMM是显示5月&ndash;&gt;-->
 									<td th:text="${#dates.format(emp.birth, 'yyyy-MM-dd')}"></td>
 									<td>

@@ -1,53 +1,57 @@
 package cn.edu.springboot.dao;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
-import cn.edu.springboot.entities.Department;
 import cn.edu.springboot.entities.Employee;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.*;
 
+import java.util.List;
 
-@Repository
-public class EmployeeDao {
+@Mapper
+public interface EmployeeDao {
 
-	private static Map<Integer, Employee> employees = null;
-	
-	@Autowired
-	private DepartmentDao departmentDao;
-	
-	static{
-		employees = new HashMap<Integer, Employee>();
+//	private static Integer initId = 1006;
 
-		employees.put(1001, new Employee(1001, "E-AA", "aa@163.com", 1, new Department(101, "D-AA")));
-		employees.put(1002, new Employee(1002, "E-BB", "bb@163.com", 1, new Department(102, "D-BB")));
-		employees.put(1003, new Employee(1003, "E-CC", "cc@163.com", 0, new Department(103, "D-CC")));
-		employees.put(1004, new Employee(1004, "E-DD", "dd@163.com", 0, new Department(104, "D-DD")));
-		employees.put(1005, new Employee(1005, "E-EE", "ee@163.com", 1, new Department(105, "D-EE")));
-	}
-	
-	private static Integer initId = 1006;
-	
-	public void save(Employee employee){
-		if(employee.getId() == null){
-			employee.setId(initId++);
-		}
-		
-		employee.setDepartment(departmentDao.getDepartment(employee.getDepartment().getId()));
-		employees.put(employee.getId(), employee);
-	}
-	
-	public Collection<Employee> getAll(){
-		return employees.values();
-	}
-	
-	public Employee get(Integer id){
-		return employees.get(id);
-	}
-	
-	public void delete(Integer id){
-		employees.remove(id);
-	}
+	@Options(useGeneratedKeys = true, keyProperty = "id")//这个是用来自增主键的  useGeneratedKeys是不是自动生成的key keyProperty = "id"表示这个id是用来封装主键的
+	@Insert("insert into employee(id,lastName,email,gender,departmentName,birth) values(#{id},#{lastName},#{email},#{gender},#{departmentName},#{birth})")
+	public void save(Employee employee);
+
+//	private Integer id;
+//	private String lastName;
+//
+//	private String email;
+//	//1 male, 0 female
+//	private Integer gender;
+//	private String departmentName;
+//	private Date birth;
+
+//	public void save(Employee employee){
+//		if(employee.getId() == null){
+//			employee.setId(initId++);
+//		}
+
+//		employee.setDepartment(departmentDao.getDepartment(employee.getDepartment().getId()));
+//		employees.put(employee.getId(), employee);
+//	}
+
+//	public Collection<Employee> getAll(){
+//		return employees.values();
+//	}
+
+	@Select("select * from employee")
+	List<Employee> getAll();
+
+	@Select("select * from employee where id=#{id}")
+	public Employee get(Integer id);
+
+//	public Employee get(Integer id){
+//		return employees.get(id);
+//	}
+
+	@Delete("delete from employee where id =#{id}")
+	public void delete(Integer id);
+
+//	public void delete(Integer id){
+//		employees.remove(id);
+//	}
 }
+
+

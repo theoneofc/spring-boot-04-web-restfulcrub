@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.model.IModel;
 
 import java.util.Collection;
+import java.util.List;
 
 @Controller
 public class EmployeeController {
@@ -28,7 +29,8 @@ public class EmployeeController {
     //1 获取员工信息并展示列表 list.html
     @GetMapping("/emps")
     public String list(Model model){
-        Collection<Employee> employees = employeeDao.getAll();
+//        Collection<Employee> employees = employeeDao.getAll();//展示 全部列表 employeeDao
+        List<Employee> employees = employeeDao.getAll();//展示 全部列表 employeeDao
 
         model.addAttribute("emps",employees);
         //model 没讲,跟map差不多
@@ -41,7 +43,7 @@ public class EmployeeController {
     @GetMapping("/emp")
     public String toAddPage(Model model){
         //准备部门下拉框数据
-        Collection<Department> departments = departmentDao.getDepartments();
+        Collection<Department> departments = departmentDao.getDepartments(); //获取所有部门名进行下拉选择 departmentDao
         model.addAttribute("depts",departments);
         return "emp/add";
 
@@ -52,7 +54,7 @@ public class EmployeeController {
     public String addEmp(Employee employee){
         System.out.println("保存信息：" + employee);
         //模拟添加到数据库
-        employeeDao.save(employee);
+        employeeDao.save(employee); //添加employee
         //添加成功重定向到列表页面
         return "redirect:/emps";
     }
@@ -60,7 +62,7 @@ public class EmployeeController {
     //Controller转发到编辑页面，回显员工信息
     @GetMapping("/emp/{id}")
     public String toEditPage(@PathVariable("id") Integer id, Model model){
-        Employee employee = employeeDao.get(id);
+        Employee employee = employeeDao.get(id);//由id来回显
         //给add.html 传递了emp，让它知道改谁
         model.addAttribute("emp",employee);
 
@@ -76,13 +78,13 @@ public class EmployeeController {
     @PutMapping("/emp")
     public String updataEmployee(Employee employee){
         System.out.println("修改数据:"+employee);
-        employeeDao.save(employee);
+        employeeDao.save(employee);//与上上个差不多
         return "redirect:/emps";
     }
 
     @DeleteMapping("/emp/{id}")
     public String deleteEmployee(@PathVariable("id") Integer id){
-        employeeDao.delete(id);
+        employeeDao.delete(id);//由id来删除
         return "redirect:/emps";
     }
 }
